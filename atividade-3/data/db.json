@@ -1,0 +1,10 @@
+{
+  "disciplinas": [
+    {
+      "nome": "Desenvolvimento Web",
+      "curso": "Engenharia de Software",
+      "quantidade": "54",
+      "id": 6
+    }
+  ]
+}
