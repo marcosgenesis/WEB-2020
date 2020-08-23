@@ -14,8 +14,17 @@ Nesta atividade, ainda continuando com o conceito de props, foi apresentado o co
 
 Nesta atividade, foi a primeira mais complexa, que exigiu fazer uma listagem das disciplinas cadastradas, um formulario que adiciona a disciplina.
 
+## [Atividade 04]
+
+A atividade 4 foi uma evolução da atividade 03, na qual devíamos adicionar por meio da lib Json web server, uma api no proprio projeto da atividade.
+
+## [Atividade 05]
+
+Nesta atividade, devíamos criar um CRUD com express para a entidade de disciplinas.
+
 ### Tecnologias Utilizadas
 
 - Axios
 - Json web server
 - React Router DOM
+- Express
