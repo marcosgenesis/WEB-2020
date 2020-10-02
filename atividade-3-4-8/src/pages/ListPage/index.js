@@ -6,15 +6,14 @@ function ListPage() {
   const [disciplinas, setDisciplinas] = useState([]);
   const [open, setOpen] = useState(false);
   const [id, setId] = useState("");
-  const [nome, setNome] = useState("");
-  const [curso, setCurso] = useState("");
-  const [qtdAlunos, setQtdAlunos] = useState(0);
+  const [name, setName] = useState("");
+  const [course, setCourse] = useState("");
+  const [qtdStudents, setQtdStudents] = useState(0);
 
   useEffect(() => {
     async function carregarDisciplinas() {
-      const response = await api.get("/disciplinas");
+      const response = await api.get("/subjects");
       setDisciplinas(response.data);
-      console.log(response.data);
     }
     carregarDisciplinas();
   }, []);
@@ -22,30 +21,34 @@ function ListPage() {
   async function handleOpen(disciplina) {
     setOpen(true);
     setId(disciplina.id);
-    setQtdAlunos(disciplina.quantidade);
-    setNome(disciplina.nome);
-    setCurso(disciplina.curso);
+    setQtdStudents(disciplina.qtdStudents);
+    setName(disciplina.name);
+    setCourse(disciplina.course);
   }
   async function handleEdit() {
-    await api.put(`/disciplinas/${id}`, { nome, curso, quantidade: qtdAlunos });
+    await api.put(`/subjects/${id}`, { name, course, qtdStudents });
     setOpen(false);
 
     const findIndex = disciplinas.findIndex(
       (disciplina) => disciplina.id === id
     );
     const disciplinasEditadas = disciplinas;
-    disciplinasEditadas[findIndex] = { id, nome, curso, quantidade: qtdAlunos };
-    console.log(disciplinasEditadas);
+    disciplinasEditadas[findIndex] = {
+      id,
+      name,
+      course,
+      qtdStudents,
+    };
     setDisciplinas(disciplinasEditadas);
 
-    setNome("");
+    setName("");
     setId(null);
-    setCurso("");
-    setQtdAlunos("");
+    setCourse("");
+    setQtdStudents("");
   }
 
   async function handleDelete(disciplina) {
-    await api.delete(`/disciplinas/${disciplina.id}`);
+    await api.delete(`/subjects/${disciplina.id}`);
     const disciplinaUpdated = disciplinas.filter(
       (disciplinaItem) => disciplinaItem.id !== disciplina.id
     );
@@ -56,34 +59,32 @@ function ListPage() {
     <div style={{ width: "100%" }}>
       <ListGroup variant="flush">
         {disciplinas.map((disciplina) => (
-          <>
-            <ListGroup.Item>
-              <span
+          <ListGroup.Item key={disciplinas}>
+            <span
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <h4>{disciplina.name}</h4>
+              <FiEdit
                 style={{
-                  display: "flex",
-                  alignItems: "center",
+                  marginLeft: "10px",
+                  cursor: "pointer",
                 }}
-              >
-                <h4>{disciplina.nome}</h4>
-                <FiEdit
-                  style={{
-                    marginLeft: "10px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => handleOpen(disciplina)}
-                />
-                <FiTrash
-                  style={{
-                    marginLeft: "10px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => handleDelete(disciplina)}
-                />
-              </span>
-              <p>{disciplina.curso}</p>
-              <p>Quantidade de alunos: {disciplina.quantidade}</p>
-            </ListGroup.Item>
-          </>
+                onClick={() => handleOpen(disciplina)}
+              />
+              <FiTrash
+                style={{
+                  marginLeft: "10px",
+                  cursor: "pointer",
+                }}
+                onClick={() => handleDelete(disciplina)}
+              />
+            </span>
+            <p>{disciplina.course}</p>
+            <p>Quantidade de alunos: {disciplina.qtdStudents}</p>
+          </ListGroup.Item>
         ))}
       </ListGroup>
       {open && (
@@ -96,21 +97,21 @@ function ListPage() {
             <form>
               <input
                 type="text"
-                placeholder="Nome"
-                defaultValue={nome}
-                onChange={(e) => setNome(e.target.value)}
+                placeholder="name"
+                defaultValue={name}
+                onChange={(e) => setName(e.target.value)}
               />
               <input
                 type="text"
-                placeholder="Curso"
-                defaultValue={curso}
-                onChange={(e) => setCurso(e.target.value)}
+                placeholder="course"
+                defaultValue={course}
+                onChange={(e) => setCourse(e.target.value)}
               />
               <input
                 type="text"
                 placeholder="Quantidade de alunos"
-                defaultValue={qtdAlunos}
-                onChange={(e) => setQtdAlunos(e.target.value)}
+                defaultValue={qtdStudents}
+                onChange={(e) => setQtdStudents(e.target.value)}
               />
             </form>
           </Modal.Body>

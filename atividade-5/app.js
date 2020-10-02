@@ -19,6 +19,7 @@ app.get("/subjects/:id", async (request, response) => {
 });
 app.post("/subjects", async (request, response) => {
   const { name, course, qtdStudents } = request.body;
+  console.log(request.body);
   const subject = {
     id: uuid(),
     name,

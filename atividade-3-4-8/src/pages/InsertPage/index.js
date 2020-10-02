@@ -3,13 +3,13 @@ import api from "../../services/api";
 import "./styles.css";
 
 function InsertPage() {
-  const [nome, setNome] = useState("");
-  const [curso, setCurso] = useState("");
-  const [quantidade, setQuantidade] = useState("");
+  const [name, setName] = useState("");
+  const [course, setCourse] = useState("");
+  const [qtdStudents, setQtdStudents] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
-    await api.post("/disciplinas", { nome, curso, quantidade });
+    await api.post("/subjects", { name, course, qtdStudents });
     alert("disciplina adicionada");
   }
 
@@ -19,21 +19,21 @@ function InsertPage() {
       <form className="form">
         <input
           type="text"
-          placeholder="Nome"
+          placeholder="name"
           className="input"
-          onChange={(e) => setNome(e.target.value)}
+          onChange={(e) => setName(e.target.value)}
         />
         <input
           type="text"
-          placeholder="Curso"
+          placeholder="course"
           className="input"
-          onChange={(e) => setCurso(e.target.value)}
+          onChange={(e) => setCourse(e.target.value)}
         />
         <input
           type="text"
-          placeholder="Quantidade máxima de alunos"
+          placeholder="qtdStudents máxima de alunos"
           className="input"
-          onChange={(e) => setQuantidade(e.target.value)}
+          onChange={(e) => setQtdStudents(e.target.value)}
         />
         <button className="button" onClick={(e) => handleSubmit(e)}>
           Adicionar disciplina
