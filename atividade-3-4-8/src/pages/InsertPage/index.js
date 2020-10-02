@@ -5,11 +5,11 @@ import "./styles.css";
 function InsertPage() {
   const [name, setName] = useState("");
   const [course, setCourse] = useState("");
-  const [qtdStudents, setQtdStudents] = useState("");
+  const [studentsAmount, setStudentsAmount] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
-    await api.post("/subjects", { name, course, qtdStudents });
+    await api.post("/subjects", { name, course, studentsAmount });
     alert("disciplina adicionada");
   }
 
@@ -33,7 +33,7 @@ function InsertPage() {
           type="text"
           placeholder="qtdStudents máxima de alunos"
           className="input"
-          onChange={(e) => setQtdStudents(e.target.value)}
+          onChange={(e) => setStudentsAmount(e.target.value)}
         />
         <button className="button" onClick={(e) => handleSubmit(e)}>
           Adicionar disciplina

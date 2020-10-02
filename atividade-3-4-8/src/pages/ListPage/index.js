@@ -8,11 +8,12 @@ function ListPage() {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [course, setCourse] = useState("");
-  const [qtdStudents, setQtdStudents] = useState(0);
+  const [studentsAmount, setStudentsAmount] = useState(0);
 
   useEffect(() => {
     async function carregarDisciplinas() {
       const response = await api.get("/subjects");
+      console.log(response.data);
       setDisciplinas(response.data);
     }
     carregarDisciplinas();
@@ -20,37 +21,38 @@ function ListPage() {
 
   async function handleOpen(disciplina) {
     setOpen(true);
-    setId(disciplina.id);
-    setQtdStudents(disciplina.qtdStudents);
+    setId(disciplina._id);
+    setStudentsAmount(disciplina.qtdStudents);
     setName(disciplina.name);
     setCourse(disciplina.course);
   }
   async function handleEdit() {
-    await api.put(`/subjects/${id}`, { name, course, qtdStudents });
+    await api.put(`/subjects/${id}`, { name, course, studentsAmount });
     setOpen(false);
 
     const findIndex = disciplinas.findIndex(
-      (disciplina) => disciplina.id === id
+      (disciplina) => disciplina._id === id
     );
+    console.log(findIndex);
     const disciplinasEditadas = disciplinas;
     disciplinasEditadas[findIndex] = {
       id,
       name,
       course,
-      qtdStudents,
+      studentsAmount,
     };
     setDisciplinas(disciplinasEditadas);
 
     setName("");
     setId(null);
     setCourse("");
-    setQtdStudents("");
+    setStudentsAmount("");
   }
 
   async function handleDelete(disciplina) {
-    await api.delete(`/subjects/${disciplina.id}`);
+    await api.delete(`/subjects/${disciplina._id}`);
     const disciplinaUpdated = disciplinas.filter(
-      (disciplinaItem) => disciplinaItem.id !== disciplina.id
+      (disciplinaItem) => disciplinaItem._id !== disciplina._id
     );
     setDisciplinas(disciplinaUpdated);
   }
@@ -59,7 +61,7 @@ function ListPage() {
     <div style={{ width: "100%" }}>
       <ListGroup variant="flush">
         {disciplinas.map((disciplina) => (
-          <ListGroup.Item key={disciplinas}>
+          <ListGroup.Item key={disciplina}>
             <span
               style={{
                 display: "flex",
@@ -83,7 +85,7 @@ function ListPage() {
               />
             </span>
             <p>{disciplina.course}</p>
-            <p>Quantidade de alunos: {disciplina.qtdStudents}</p>
+            <p>Quantidade de alunos: {disciplina.amountStudents}</p>
           </ListGroup.Item>
         ))}
       </ListGroup>
@@ -110,8 +112,8 @@ function ListPage() {
               <input
                 type="text"
                 placeholder="Quantidade de alunos"
-                defaultValue={qtdStudents}
-                onChange={(e) => setQtdStudents(e.target.value)}
+                defaultValue={studentsAmount}
+                onChange={(e) => setStudentsAmount(e.target.value)}
               />
             </form>
           </Modal.Body>
