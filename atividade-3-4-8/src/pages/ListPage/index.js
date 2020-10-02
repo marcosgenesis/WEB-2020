@@ -22,11 +22,14 @@ function ListPage() {
   async function handleOpen(disciplina) {
     setOpen(true);
     setId(disciplina._id);
-    setStudentsAmount(disciplina.qtdStudents);
+    console.log(disciplina);
+    setStudentsAmount(disciplina.studentsAmount);
     setName(disciplina.name);
     setCourse(disciplina.course);
   }
-  async function handleEdit() {
+  async function handleEdit(e) {
+    e.preventDefault();
+    console.log("dasdsa");
     await api.put(`/subjects/${id}`, { name, course, studentsAmount });
     setOpen(false);
 
@@ -46,7 +49,7 @@ function ListPage() {
     setName("");
     setId(null);
     setCourse("");
-    setStudentsAmount("");
+    setStudentsAmount(0);
   }
 
   async function handleDelete(disciplina) {
@@ -61,7 +64,7 @@ function ListPage() {
     <div style={{ width: "100%" }}>
       <ListGroup variant="flush">
         {disciplinas.map((disciplina) => (
-          <ListGroup.Item key={disciplina}>
+          <ListGroup.Item key={disciplina._id}>
             <span
               style={{
                 display: "flex",
@@ -85,7 +88,7 @@ function ListPage() {
               />
             </span>
             <p>{disciplina.course}</p>
-            <p>Quantidade de alunos: {disciplina.amountStudents}</p>
+            <p>Quantidade de alunos: {disciplina.studentsAmount}</p>
           </ListGroup.Item>
         ))}
       </ListGroup>
@@ -94,9 +97,8 @@ function ListPage() {
           <Modal.Header closeButton={false}>
             <Modal.Title>Editar </Modal.Title>
           </Modal.Header>
-
-          <Modal.Body>
-            <form>
+          <form onSubmit={handleEdit}>
+            <Modal.Body>
               <input
                 type="text"
                 placeholder="name"
@@ -115,17 +117,17 @@ function ListPage() {
                 defaultValue={studentsAmount}
                 onChange={(e) => setStudentsAmount(e.target.value)}
               />
-            </form>
-          </Modal.Body>
+            </Modal.Body>
 
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setOpen(false)}>
-              Fechar
-            </Button>
-            <Button variant="primary" onClick={handleEdit}>
-              Salvar Mudanças
-            </Button>
-          </Modal.Footer>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={() => setOpen(false)}>
+                Fechar
+              </Button>
+              <Button variant="primary" type="submit">
+                Salvar Mudanças
+              </Button>
+            </Modal.Footer>
+          </form>
         </Modal.Dialog>
       )}
     </div>
