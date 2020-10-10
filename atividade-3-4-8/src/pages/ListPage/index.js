@@ -13,7 +13,6 @@ function ListPage() {
   useEffect(() => {
     async function carregarDisciplinas() {
       const response = await api.get("/subjects");
-      console.log(response.data);
       setDisciplinas(response.data);
     }
     carregarDisciplinas();
@@ -22,14 +21,12 @@ function ListPage() {
   async function handleOpen(disciplina) {
     setOpen(true);
     setId(disciplina._id);
-    console.log(disciplina);
     setStudentsAmount(disciplina.studentsAmount);
     setName(disciplina.name);
     setCourse(disciplina.course);
   }
   async function handleEdit(e) {
     e.preventDefault();
-    console.log("dasdsa");
     await api.put(`/subjects/${id}`, { name, course, studentsAmount });
     setOpen(false);
 
